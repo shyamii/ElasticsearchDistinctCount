@@ -1,9 +1,23 @@
 package com.example.demo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class AggregationResult {
+	@Id
+	private Integer id;
 	private String field;
 	private String term;
 	private long count;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getField() {
 		return field;
@@ -31,7 +45,7 @@ public class AggregationResult {
 
 	@Override
 	public String toString() {
-		return "AggregationResult [field=" + field + ", term=" + term + ", count=" + count + "]";
+		return "AggregationResult [id=" + id + ", field=" + field + ", term=" + term + ", count=" + count + "]";
 	}
 
 }
