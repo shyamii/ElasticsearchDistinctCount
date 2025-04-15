@@ -97,6 +97,25 @@ public class AggregationService {
 		}
 	}
 
+	public void saveToDatabase(List<AggregationResult> results) {
+        String sql = "INSERT INTO aggregation_results (field, term, count) VALUES (?, ?, ?)";
+        
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                AggregationResult result = results.get(i);
+                ps.setString(1, result.getField());
+                ps.setString(2, result.getTerm());
+                ps.setLong(3, result.getCount());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return results.size();
+            }
+        });
+    }
+
 	public void writeToCsv(List<AggregationResult> results, String csvFilePath) {
 		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFilePath))) {
 			String[] header = { "Field", "Term", "Count" };
